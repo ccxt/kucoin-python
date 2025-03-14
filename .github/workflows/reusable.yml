@@ -24,7 +24,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}
         with:
-          source-directory: ''
+          source-directory: './'
           destination-github-username: 'ccxt'
           destination-repository-name: 'python-${{ inputs.exchange_name }}'
           user-email: admin@example.com
