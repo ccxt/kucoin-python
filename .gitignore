@@ -173,3 +173,5 @@ cython_debug/
 .pypirc
 
 build/ccxt
+/meta.json
+/name
