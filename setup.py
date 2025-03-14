@@ -10,11 +10,10 @@ here = path.abspath(path.dirname(__file__))
 root = path.dirname(here)
 
 readme = path.join(here, 'README.md')
-package_json = path.join(here, 'build/package-meta.json')
-
+package_json = path.join(here, 'meta.json')
 # a workaround when installing locally from git repository with pip install -e .
 if not path.isfile(package_json):
-    package_json = path.join(root, 'build/package-meta.json')
+    package_json = path.join(root, 'meta.json')
 
 # long description from README file
 with open(readme, encoding='utf-8') as f:
@@ -24,19 +23,10 @@ with open(readme, encoding='utf-8') as f:
 with open(package_json, encoding='utf-8') as f:
     package = json.load(f)
 
-project_urls = {
-    'Homepage': 'https://ccxt.com',
-    'Documentation': 'https://github.com/ccxt/ccxt/wiki',
-    'Discord': 'https://discord.gg/ccxt',
-    'Twitter': 'https://twitter.com/ccxt_official',
-    'Funding': 'https://opencollective.com/ccxt',
-}
-
 raw_version = package['version']
 version = '0.' + raw_version[2:]
 
 setup(
-
     name=package['name'],
     version=version,
     description=package['description'],
@@ -99,5 +89,5 @@ setup(
             'mypy==1.6.1',
         ],
     },
-    project_urls=project_urls,
+    project_urls=package['project_urls'],
 )
