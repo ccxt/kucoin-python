@@ -96,26 +96,9 @@ class build {
 
     async setAllExchangesList () {
         this.allExchangesList = fs.readdirSync(__dirname + '/ccxt/ts/src/').filter(file => file.endsWith('.ts')).map(file => file.replace('.ts', ''));  //  [... fs.readFileSync('./ccxt/python/ccxt/__init__.py').matchAll(/from ccxt\.([a-z0-9_]+) import \1\s+# noqa/g)].map(match => match[1]);
-    }
-
-    createMetaPackage () {
-        const originalPackage = JSON.parse (fs.readFileSync (__dirname + '/ccxt/package.json', 'utf8'));
-        const packageJson = {
-            name: this.exchange,
-            description: `A Python cryptocurrency trading library for ${this.exchange}`,
-            keywords: [this.exchange, "cryptocurrency", "trading", "library", "api", "rest", "websocket", "exchange", "ccxt"],
-        };
-        const extended = Object.assign (originalPackage, packageJson);
-        extended['repository']['url'] = `https://github.com/ccxt/${this.language}-${this.exchange}.git`;
-        // remove all props except
-        const neededProps = ['name', 'version', 'description', 'keywords', 'repository', 'readme', 'author', 'license', 'bugs', 'homepage', 'collective', 'ethereum'];
-        // remove with inline
-        for (const key in extended) {
-            if (!neededProps.includes(key)) {
-                delete extended[key];
-            }
+        if (this.allExchangesList.length === 0) {
+            throw new Error('No exchanges list found');
         }
-        fs.writeFileSync (__dirname + '/package-meta.json', JSON.stringify(extended, null, 4));
     }
 
     regexAll (text: string, array: any[]) {
@@ -149,21 +132,50 @@ class build {
 
     creataPackageInitFile () {
         const capitalized = capitalize (this.exchange);
-        const cont = 'import sys\n' +
-                    `import ${this.exchange}.ccxt as ccxt_module\n` +
-                    'sys.modules[\'ccxt\'] = ccxt_module\n\n' +
-                    `from ${this.exchange}.ccxt import ${this.exchange} as ${capitalized}Sync\n` +
-                    `from ${this.exchange}.ccxt.async_support.${this.exchange} import ${this.exchange} as ${capitalized}Async\n` +
-                    `from ${this.exchange}.ccxt.pro.${this.exchange} import ${this.exchange} as ${capitalized}Ws\n`
+        const cont = '' +
+            'import sys\n' +
+            `import ${this.exchange}.ccxt as ccxt_module\n` +
+            'sys.modules[\'ccxt\'] = ccxt_module\n' +
+            '\n' +
+            `from ${this.exchange}.ccxt import ${this.exchange} as ${capitalized}Sync\n` +
+            `from ${this.exchange}.ccxt.async_support.${this.exchange} import ${this.exchange} as ${capitalized}Async\n` +
+            `from ${this.exchange}.ccxt.pro.${this.exchange} import ${this.exchange} as ${capitalized}Ws\n`
         fs.writeFileSync(this.destinationFolder + '/../__init__.py', cont);
     }
 
-    addWsLines () {
+    editWsHeaders () {
         const path = this.destinationFolder + `pro/${this.exchange}.py`;
         const fileContent = fs.readFileSync(path, 'utf8');
         const addLine = `from ccxt.async_support import ${this.exchange} as ${this.exchange}Async\n`;
         const newContent = fileContent.replace(/class \w+\(.*?\):/, addLine + `\n\nclass ${this.exchange}(${this.exchange}Async):`);
         fs.writeFileSync(path, newContent);
+    }
+
+    createMetaPackage () {
+        const originalPackage = JSON.parse (fs.readFileSync (__dirname + '/ccxt/package.json', 'utf8'));
+        const packageJson = {
+            name: this.exchange,
+            description: `A Python cryptocurrency trading library for ${this.exchange}`,
+            keywords: [this.exchange, "cryptocurrency", "trading", "library", "api", "rest", "websocket", "exchange", "ccxt"],
+        };
+        const extended = Object.assign (originalPackage, packageJson);
+        extended['repository']['url'] = `https://github.com/ccxt/${this.language}-${this.exchange}.git`;
+        // remove all props except
+        const neededProps = ['name', 'version', 'description', 'keywords', 'repository', 'readme', 'author', 'license', 'bugs', 'homepage', 'collective', 'ethereum'];
+        // remove with inline
+        for (const key in extended) {
+            if (!neededProps.includes(key)) {
+                delete extended[key];
+            }
+        }
+        extended['project_urls'] = {
+            'Homepage': 'https://ccxt.com',
+            'Documentation': 'https://github.com/ccxt/ccxt/wiki',
+            'Discord': 'https://discord.gg/ccxt',
+            'Twitter': 'https://twitter.com/ccxt_official',
+            'Funding': 'https://opencollective.com/ccxt',
+        };
+        fs.writeFileSync (__dirname + '/../meta.json', JSON.stringify(extended, null, 4));
     }
 
     async init (exchange:string) {
@@ -177,7 +189,7 @@ class build {
         await this.cleanInitFile (this.destinationFolder + '__init__.py');
         await this.cleanInitFile (this.destinationFolder + 'async_support/__init__.py');
         await this.cleanInitFile (this.destinationFolder + 'pro/__init__.py');
-        this.addWsLines ();
+        this.editWsHeaders ();
 
         // Remove git dir now (after reading exchanges)
         this.createMetaPackage ();
@@ -195,14 +207,14 @@ class build {
 
 const argvs = process.argv.slice(2);
 let exchange = argvs[0];
-if (!exchange) {
+if (!exchange || exchange.includes('--')) {
     const nameFile = __dirname + '/../name';
     if (fs.existsSync(nameFile)) {
         exchange = fs.readFileSync(nameFile, 'utf8').trim();
     }
 }
 if (!exchange) {
-    console.error('Please provide exchange name');
+    console.error('Please input exchange name in a "name" file in the root of the project');
     process.exit(1);
 }
 const donwloadAndDelete = !argvs.includes('--nodownload');
