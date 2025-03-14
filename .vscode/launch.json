@@ -23,7 +23,7 @@
                 "build",
                 "${input:exName}",
                 "--",
-                "--nodownload"
+                "${input:nodownload}",
             ],
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
@@ -41,6 +41,12 @@
             "type": "promptString",
             "description": "Exchange name",
             "default": ""
+        },
+        {
+            "id": "nodownload",
+            "type": "promptString",
+            "description": "Exchange name",
+            "default": "--nodownload"
         },
     ]
 }

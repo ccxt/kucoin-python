@@ -201,7 +201,7 @@ class build {
     }
 
     generateExamples () {
-        const destinationDir = __dirname + `/../${this.exchange}/examples/`;
+        const destinationDir = __dirname + `/../examples/`;
         cp (__dirname + '/sources/examples/', destinationDir);
         // iterate through files and make replacements
         const files = fs.readdirSync(destinationDir);
@@ -214,7 +214,7 @@ class build {
     }
 
     generateReadme () {
-        const destinationDir = __dirname + `/../${this.exchange}/README.md`;
+        const destinationDir = __dirname + `/../README.md`;
         cp (__dirname + '/sources/README.md', destinationDir);
         let fileContent = fs.readFileSync(destinationDir, 'utf8');
         fileContent = this.replaceGlobalRegexes(fileContent, []);
