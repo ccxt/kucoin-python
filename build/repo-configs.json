@@ -1,0 +1,7 @@
+{
+    "bybit": {
+        "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://bybit.com/apidocs1",
+        "__PYTHON_PACKAGE_NAME__": "bybit-exchange",
+        "__TEST_SYMBOL__": "BTC/USDT"
+    }
+}
