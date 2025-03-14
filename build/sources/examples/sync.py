@@ -4,13 +4,13 @@ import sys
 root = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
 sys.path.append(root + '/')
 
-from exchangeName import ExchangeNameSync
+from __exchangeName__ import __ExchangeName__Sync
 
 
 def main():
-    instance = HyperliquidSync({})
+    instance = __ExchangeName__Sync({})
     instance.load_markets()
-    symbol = "BTC/USDC:USDC"
+    symbol = __TEST_SYMBOL__
 
     # fetch ticker
     #
