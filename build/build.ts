@@ -118,7 +118,7 @@ class build {
         fs.writeFileSync (__dirname + '/package-meta.json', JSON.stringify(extended, null, 4));
     }
 
-    regexAll (text, array) {
+    regexAll (text: string, array: any[]) {
         for (const i in array) {
             let regex = array[i][0]
             const flags = (typeof regex === 'string') ? 'g' : undefined
@@ -194,7 +194,13 @@ class build {
 
 
 const argvs = process.argv.slice(2);
-const exchange = argvs[0];
+let exchange = argvs[0];
+if (!exchange) {
+    const nameFile = __dirname + '/../name';
+    if (fs.existsSync(nameFile)) {
+        exchange = fs.readFileSync(nameFile, 'utf8').trim();
+    }
+}
 if (!exchange) {
     console.error('Please provide exchange name');
     process.exit(1);
