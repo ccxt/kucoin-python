@@ -1,0 +1,32 @@
+# .github/workflows/reusable-workflow.yml
+name: branch default workflow
+
+on:
+  workflow_call:
+    inputs:
+      exchange_name:
+        description: "exchange-name of repo to transfer"
+        required: true
+        type: string
+
+jobs:
+  build:
+    if: (!(contains(github.event.head_commit.message, 'ci skip') || contains(github.event.head_commit.message, 'skip ci')))
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }} # Use github.ref for the triggering branch
+      - name: Pushes to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}
+        with:
+          source-directory: ''
+          destination-github-username: 'ccxt'
+          destination-repository-name: 'python-${{ github.event.workflow_run.inputs.exchange_name }}'
+          user-email: admin@example.com
+          target-branch: main
+          commit-message: 'pushing to repo'
