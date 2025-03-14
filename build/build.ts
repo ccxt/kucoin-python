@@ -151,12 +151,16 @@ class build {
         fs.writeFileSync(path, newContent);
     }
 
+    globalConfigs: any = {};
+
     createMetaPackage () {
         const originalPackage = JSON.parse (fs.readFileSync (__dirname + '/ccxt/package.json', 'utf8'));
+        const exchangesConfigContent = fs.readFileSync(__dirname + '/global-configs.json', 'utf8');
+        this.globalConfigs = JSON.parse(exchangesConfigContent);
         const packageJson = {
             name: this.exchange,
             description: `A Python cryptocurrency trading library for ${this.exchange}`,
-            keywords: [this.exchange, "cryptocurrency", "trading", "library", "api", "rest", "websocket", "exchange", "ccxt"],
+            keywords:  [this.exchange].concat (this.globalConfigs.keywords),
         };
         const extended = Object.assign (originalPackage, packageJson);
         extended['repository']['url'] = `https://github.com/ccxt/${this.language}-${this.exchange}.git`;
@@ -175,7 +179,46 @@ class build {
             'Twitter': 'https://twitter.com/ccxt_official',
             'Funding': 'https://opencollective.com/ccxt',
         };
-        fs.writeFileSync (__dirname + '/../meta.json', JSON.stringify(extended, null, 4));
+        const stringified = JSON.stringify(extended, null, 4);
+        fs.writeFileSync (__dirname + '/../meta.json', stringified);
+    }
+
+    capitalize (str: string) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    replaceGlobalRegexes (text: string, array: any[]) {
+        let newText = text;
+        newText = this.regexAll (newText, [
+            '__exchangeName__', this.exchange,
+            '__ExchangeName__', this.capitalize(this.exchange),
+        ]);
+        const exchangeConfig = this.globalConfigs['exchanges'][this.exchange];
+        for (const key in exchangeConfig) {
+            newText = newText.replace(new RegExp(`${key}`, 'g'), exchangeConfig[key]);
+        }
+        return newText;
+    }
+
+    generateExamples () {
+        const destinationDir = __dirname + `/../${this.exchange}/examples/`;
+        cp (__dirname + '/sources/examples/', destinationDir);
+        // iterate through files and make replacements
+        const files = fs.readdirSync(destinationDir);
+        for (const file of files) {
+            const filePath = destinationDir + file;
+            let fileContent = fs.readFileSync(filePath, 'utf8');
+            fileContent = this.replaceGlobalRegexes(fileContent, []);
+            fs.writeFileSync(filePath, fileContent);
+        }
+    }
+
+    generateReadme () {
+        const destinationDir = __dirname + `/../${this.exchange}/README.md`;
+        cp (__dirname + '/sources/README.md', destinationDir);
+        let fileContent = fs.readFileSync(destinationDir, 'utf8');
+        fileContent = this.replaceGlobalRegexes(fileContent, []);
+        fs.writeFileSync(destinationDir, fileContent);
     }
 
     async init (exchange:string) {
@@ -193,6 +236,8 @@ class build {
 
         // Remove git dir now (after reading exchanges)
         this.createMetaPackage ();
+        this.generateExamples ();
+        this.generateReadme ();
         if (this.downloadAndDelete) {
             fs.rmSync(__dirname + '/ccxt/', { recursive: true, force: true });
         }
