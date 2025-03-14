@@ -103,9 +103,9 @@ class build {
 
     regexAll (text: string, array: any[]) {
         for (const i in array) {
-            let regex = array[i][0]
-            const flags = (typeof regex === 'string') ? 'g' : undefined
-            regex = new RegExp (regex, flags)
+            const regexValue = array[i][0]
+            const flags = (typeof regexValue === 'string') ? 'g' : undefined
+            const regex = new RegExp (regexValue, flags)
             text = text.replace (regex, array[i][1])
         }
         return text
@@ -190,8 +190,8 @@ class build {
     replaceGlobalRegexes (text: string, array: any[]) {
         let newText = text;
         newText = this.regexAll (newText, [
-            '__exchangeName__', this.exchange,
-            '__ExchangeName__', this.capitalize(this.exchange),
+            ['__exchangeName__', this.exchange],
+            ['__ExchangeName__', this.capitalize(this.exchange)],
         ]);
         const exchangeConfig = this.globalConfigs['exchanges'][this.exchange];
         for (const key in exchangeConfig) {
@@ -241,6 +241,7 @@ class build {
         if (this.downloadAndDelete) {
             fs.rmSync(__dirname + '/ccxt/', { recursive: true, force: true });
         }
+        console.log ("Done!");
     }
 }
 
