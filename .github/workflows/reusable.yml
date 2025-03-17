@@ -24,5 +24,5 @@ jobs:
           # git config user.name ccxt_githubactions
           # git config user.email ccxt_githubactions@github.com
           curl -H "Authorization: Bearer ${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}" https://api.github.com/user
-          git remote add prod https://x-access-token:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{inputs.exchange_name}}.git
+          git remote add prod https://ttodua:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{inputs.exchange_name}}.git
           git push prod
