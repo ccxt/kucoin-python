@@ -20,13 +20,8 @@ jobs:
         with:
           ref: ${{ github.ref }}
       - name: Pushes to another repository
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}
-        with:
-          source-directory: './'
-          destination-github-username: 'ccxt'
-          destination-repository-name: 'python-${{ inputs.exchange_name }}'
-          user-email: 7117978+ttodua@users.noreply.github.com
-          target-branch: main
-          commit-message: 'pushing to repo'
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git remote add prod https://x-access-token:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{ inputs.exchange_name }}.git
+          git push prod
