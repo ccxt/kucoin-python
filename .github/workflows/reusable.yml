@@ -11,14 +11,14 @@ on:
 
 jobs:
   build:
-    if: (!(contains(github.event.head_commit.message, 'ci skip') || contains(github.event.head_commit.message, 'skip ci')))
+    if: (contains(github.event.head_commit.message, 'build') && !contains(github.event.head_commit.message, 'skip ci'))
     name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref }} # Use github.ref for the triggering branch
+          ref: ${{ github.ref }}
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
@@ -27,6 +27,6 @@ jobs:
           source-directory: './'
           destination-github-username: 'ccxt'
           destination-repository-name: 'python-${{ inputs.exchange_name }}'
-          user-email: admin@example.com
+          user-email: 7117978+ttodua@users.noreply.github.com
           target-branch: main
           commit-message: 'pushing to repo'
