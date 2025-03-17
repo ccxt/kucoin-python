@@ -21,7 +21,10 @@ jobs:
       - name: push to remote
         run: |
           git remote remove origin || true
-          git credential reject
+          git credential reject  <<EOF
+          protocol=https
+          host=github.com
+          EOF
           git config --global user.name "ttodua"
           git config --global user.email "ccxt_githubactions@github.com"
           git remote add prod https://ttodua:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{inputs.exchange_name}}.git
