@@ -17,11 +17,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref }}
-      - name: Pushes to another repository
+        
+      - name: Set Up Git Identity
         run: |
-          git config user.name ttodua
-          git config user.email 7117978+ttodua@users.noreply.github.com
+          git config --global user.name "ccxt_githubactions"
+          git config --global user.email "ccxt_githubactions@github.com"
           git remote add prod https://ttodua:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{inputs.exchange_name}}.git
-          git push prod
+          git push prod main
