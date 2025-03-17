@@ -21,9 +21,7 @@ jobs:
           ref: ${{ github.ref }}
       - name: Pushes to another repository
         run: |
-          # git config user.name ttodua
-          # git config user.email ccxt_githubactions@github.com
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name ttodua
+          git config user.email 7117978+ttodua@users.noreply.github.com
           git remote add prod https://ttodua:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{inputs.exchange_name}}.git
           git push prod
