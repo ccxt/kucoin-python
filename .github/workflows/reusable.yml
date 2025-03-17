@@ -15,10 +15,6 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Echo first 4 chars of secret (WARNING!)
-        run: |
-          echo "${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}" | cut -c1-15
-        shell: bash
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -27,5 +23,6 @@ jobs:
         run: |
           # git config user.name ccxt_githubactions
           # git config user.email ccxt_githubactions@github.com
+          curl -H "Authorization: token ${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}" https://api.github.com/user
           git remote add prod https://x-access-token:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{inputs.exchange_name}}.git
           git push prod
