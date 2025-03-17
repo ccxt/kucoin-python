@@ -18,21 +18,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.ref }}
           persist-credentials: false
-        
-      - name: push to remote
+      - name: Pushes to another repository
         run: |
-          git remote remove origin || true
-          git credential reject  <<EOF
-          protocol=https
-          host=github.com
-          EOF
-          git config --global user.name "ttodua"
-          git config --global user.email "ccxt_githubactions@github.com"
-          git remote add prod https://ttodua:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{inputs.exchange_name}}.git
-             git config --global credential.helper store
-          echo "https://${{ secrets.GH_USERNAME }}:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com" > ~/.git-credentials
-          git config --global credential.useHttpPath true
-          git config --global credential.helper 'cache --timeout=3600'
-
-          git push prod main
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git remote add prod https://x-access-token:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{ inputs.exchange_name }}.git
+          git pull prod
+          git push prod
