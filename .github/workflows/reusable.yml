@@ -18,10 +18,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         
-      - name: Set Up Git Identity
+      - name: push to remote
         run: |
           git remote remove origin || true
-          git credential reject "https://github.com"
+          git credential reject
           git config --global user.name "ttodua"
           git config --global user.email "ccxt_githubactions@github.com"
           git remote add prod https://ttodua:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{inputs.exchange_name}}.git
