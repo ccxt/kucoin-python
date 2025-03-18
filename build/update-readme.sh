@@ -12,10 +12,10 @@ for exchange in "${EXCHANGES[@]}"; do
 done
 
 # Update README with perl (no temp files)
-perl -i -0pe "s/## Exchange Repositories.*?(^##|\Z)/$SECTION\$1/ms" README.md || {
+perl -i -0pe "s/## Exchange Repositories.*?(^##|\Z)/$SECTION\$1/ms" ./../README.md || {
   # If section doesn't exist, append it
-  echo "$SECTION" >> README.md
+  echo "$SECTION" >> ./../README.md
 }
 
 # Display the changes
-cat README.md
+cat ./../README.md
