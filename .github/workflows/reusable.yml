@@ -28,7 +28,8 @@ jobs:
           TEMP_DIR_GIT="$TEMP_DIR/python-${{ inputs.exchange_name }}"
           git clone https://x-access-token:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{ inputs.exchange_name }}.git $TEMP_DIR_GIT
           # copy (with overwrite) everything except .git folder
-          cp -rT ${{ github.workspace}} $TEMP_DIR_GIT
+          dir .
+          rsync -av --exclude='.git' ./ $TEMP_DIR_GIT
           cd $TEMP_DIR_GIT
           git add .
           git commit -m "build: ${{ github.sha }}"
