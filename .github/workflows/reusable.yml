@@ -47,7 +47,7 @@ jobs:
       #     git push prod main --force
 
       - name: Update README with repository links
-        run: ./build/update-readme.sh
+        run: chmod +x ./build/update-readme.sh && ./build/update-readme.sh
       
       - name: Commit and push changes
         run: |
