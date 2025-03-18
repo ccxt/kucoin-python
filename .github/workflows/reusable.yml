@@ -27,9 +27,9 @@ jobs:
           git remote add prod https://x-access-token:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{ inputs.exchange_name }}.git
           git config pull.rebase false
           git pull --allow-unrelated-histories prod main || echo "Git pull failed"
-          git push prod main
+          # git push prod main
 
-          
+
       # - name: Pushes to another repo (approach 2)
       #   run: |
       #     TEMP_DIR=$(mktemp -d)
