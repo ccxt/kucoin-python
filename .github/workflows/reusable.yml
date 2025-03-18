@@ -28,3 +28,17 @@ jobs:
           git config pull.rebase false
           git pull --allow-unrelated-histories prod main || echo "Git pull failed"
           git push prod main
+
+          
+      # - name: Pushes to another repo (approach 2)
+      #   run: |
+      #     TEMP_DIR=$(mktemp -d)
+      #     TEMP_DIR_GIT="$TEMP_DIR/python-${{ inputs.exchange_name }}"
+      #     git clone https://x-access-token:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{ inputs.exchange_name }}.git $TEMP_DIR_GIT
+      #     rsync -av --exclude='.git' ./ $TEMP_DIR_GIT
+      #     cd $TEMP_DIR_GIT
+      #     git config user.name github-actions
+      #     git config user.email github-actions@github.com
+      #     git add .
+      #     git commit -m "build: ${{ github.sha }}"
+      #     git push origin main --force
