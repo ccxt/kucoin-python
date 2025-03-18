@@ -26,5 +26,5 @@ jobs:
           git config user.email github-actions@github.com
           git remote add prod https://x-access-token:${{ secrets.API_TOKEN_FOR_CCXT_SINGLE_EXCHANGES }}@github.com/ccxt/python-${{ inputs.exchange_name }}.git
           git config pull.rebase false
-          git pull prod main
+          git pull --allow-unrelated-histories prod main
           git push prod main --force
