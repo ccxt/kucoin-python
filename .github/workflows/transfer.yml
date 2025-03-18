@@ -8,5 +8,5 @@ jobs:
   use-reusable-workflow:
     uses: ./.github/workflows/reusable.yml
     with:
-      exchange_name: bybit
+      exchange_name: kucoin
     secrets: inherit
