@@ -9,6 +9,9 @@ GITHUB_SHA=$3
 TEMP_DIR=$(mktemp -d)
 TEMP_DIR_GIT="$TEMP_DIR/$EXCHANGE_NAME-python"
 git clone https://x-access-token:$API_TOKEN@github.com/ccxt/$EXCHANGE_NAME-python.git $TEMP_DIR_GIT
+# at first, clean th directory (except .git directory) and copy all files
+rm -rf $TEMP_DIR_GIT/*
+rm -rf $TEMP_DIR_GIT/.github/*
 rsync -av --exclude='.git' ./ $TEMP_DIR_GIT
 # remove all yml files except remote
 dir $TEMP_DIR_GIT/.github/workflows/
