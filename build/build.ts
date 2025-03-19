@@ -202,7 +202,7 @@ class build {
 
     generateExamples () {
         const destinationDir = __dirname + `/../examples/`;
-        cp (__dirname + '/sources/examples/', destinationDir);
+        cp (__dirname + '/templates/examples/', destinationDir);
         // iterate through files and make replacements
         const files = fs.readdirSync(destinationDir);
         for (const file of files) {
@@ -215,7 +215,7 @@ class build {
 
     generateReadme () {
         const destinationDir = __dirname + `/../README.md`;
-        cp (__dirname + '/sources/README.md', destinationDir);
+        cp (__dirname + '/templates/README.md', destinationDir);
         let fileContent = fs.readFileSync(destinationDir, 'utf8');
         fileContent = this.replaceGlobalRegexes(fileContent, []);
         fs.writeFileSync(destinationDir, fileContent);
