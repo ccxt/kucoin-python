@@ -1,6 +1,9 @@
 # .github/workflows/reusable-workflow.yml
 name: branch default workflow
 
+env:
+  EXCHANGES_JSON: '["binance", "okx", "kraken", "coinbase", "bybit"]'
+
 on:
   workflow_call:
     inputs:
@@ -46,7 +49,19 @@ jobs:
       #     git pull --allow-unrelated-histories prod main || echo "Git pull failed"
       #     git push prod main --force
 
+      
+  readme_update:
+    name: readme-upd
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
       - name: Update README with repository links
+        env:
+          EXCHANGES_JSON: '["binance", "okx", "kraken", "coinbase", "bybit"]'
         run: chmod +x ./build/update-readme.sh && ./build/update-readme.sh
       
       - name: Commit and push changes
