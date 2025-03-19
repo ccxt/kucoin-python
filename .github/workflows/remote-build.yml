@@ -14,11 +14,11 @@ jobs:
         with:
           ref: ${{ github.ref }}
           persist-credentials: false
-      # - name: Install npm & tsx
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '22'
-      #     cache: 'npm'
+      - name: Install npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
       # - name: Cache npm dependencies
       #   uses: actions/cache@v3
       #   with:
@@ -26,11 +26,11 @@ jobs:
       #     key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
       #     restore-keys: |
       #       ${{ runner.os }}-npm-
-      # - name: Install dependencies
-      #   run: |
-      #     cd build
-      #     npm install typescript
-      #     npm install tsx
+      - name: Install dependencies
+        run: |
+          cd build
+          npm install typescript
+          npm install tsx
       - name: Build
         run: |
           cd build || echo "already in build"
