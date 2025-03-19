@@ -1,3 +1,49 @@
-# central repo for single exchanges
+# kucoin-python
+Python SDK (sync and async) for Kucoin with Rest and WS capabilities.
 
-this is dev.repo, not meant to be used by end users.
+You can check Kucoin's docs here: [Docs](https://example.com)
+
+
+You can check the SDK docs here: [SDK](https://docs.ccxt.com/#/exchanges/kucoin)
+
+*This package derives from CCXT and allows you to call pretty much every endpoint by either using the unified CCXT API or calling the endpoints directly*
+
+## Installation
+
+```
+pip install kucoin-api
+```
+
+## Usage
+
+### Async
+
+```Python
+from kucoin-api import KucoinAsync
+
+async def main():
+    instance = KucoinAsync({})
+    order = await instance.create_order(__EXAMPLE_SYMBOL__, "limit", "buy", 1, 100000)
+```
+
+### Sync
+
+```Python
+from kucoin-api import KucoinSync
+
+def main():
+    instance = KucoinSync({})
+    order =  instance.create_order(__EXAMPLE_SYMBOL__, "limit", "buy", 1, 100000)
+```
+
+### Websockets
+
+```Python
+from kucoin-api import KucoinWs
+
+async def main():
+    instance = KucoinWs({})
+    while True:
+        orders = await instance.watch_orders(__EXAMPLE_SYMBOL__)
+```
+
