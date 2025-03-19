@@ -1,0 +1,42 @@
+name: build
+on:
+  push:
+    branches:
+      - main
+
+env:
+  EXCHANGES_JSON: '["binance", "okx", "kraken", "coinbase", "bybit"]'
+      
+jobs:
+  build_for_pypi:
+    if: ${{ !endsWith(github.repository, '/ccxt-python-single-exchange') }} && (contains(github.event.head_commit.message, '[BUILD]'))
+    name: distribute-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          persist-credentials: false
+      - name: echo something
+        run: echo "something"
+      
+  readme_update:
+    name: readme-upd
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Update README with repository links
+        run: chmod +x ./build/update-readme.sh && ./build/update-readme.sh
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m "Update README with exchange repository links" || echo "No changes to commit"
+          git push
