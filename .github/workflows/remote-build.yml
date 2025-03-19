@@ -28,6 +28,6 @@ jobs:
         run: |
           cd build || echo "already in build"
           # get repository name and it's first word before hypher and pass that as argument
-          REPO_NAME=$(echo ${{ github.repository }} | cut -d'-' -f1)
+          REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2 | cut -d'-' -f1)
           echo "REPO_NAME: $REPO_NAME"
           # npm run build -- $REPO_NAME
