@@ -19,6 +19,13 @@ jobs:
       #   with:
       #     node-version: '22'
       #     cache: 'npm'
+      # - name: Cache npm dependencies
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.npm
+      #     key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-npm-
       # - name: Install dependencies
       #   run: |
       #     cd build
@@ -30,4 +37,12 @@ jobs:
           # get repository name and it's first word before hypher and pass that as argument
           REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2 | cut -d'-' -f1)
           echo "REPO_NAME: $REPO_NAME"
-          # npm run build -- $REPO_NAME
+          npm run build -- $REPO_NAME
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m "Update README with exchange repository links" || echo "No changes to commit"
+          git push

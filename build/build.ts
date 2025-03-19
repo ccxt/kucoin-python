@@ -254,13 +254,13 @@ class build {
 const argvs = process.argv.slice(2);
 let exchange = argvs[0];
 if (!exchange || exchange.includes('--')) {
-    const nameFile = __dirname + '/../name';
+    const nameFile = __dirname + '/../exchange_name';
     if (fs.existsSync(nameFile)) {
         exchange = fs.readFileSync(nameFile, 'utf8').trim();
     }
 }
 if (!exchange) {
-    console.error('Please input exchange name in a "name" file in the root of the project');
+    console.error('Please pass exchange name to build script or set it in a "exchange_name" file in the root of the project');
     process.exit(1);
 }
 const donwloadAndDelete = !argvs.includes('--nodownload');
