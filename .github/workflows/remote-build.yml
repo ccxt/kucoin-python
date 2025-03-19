@@ -1,0 +1,48 @@
+name: build
+on:
+  push:
+    branches:
+      - main
+
+env:
+  EXCHANGES_JSON: '["binance", "okx", "kraken", "coinbase", "bybit"]'
+      
+jobs:
+  build_for_pypi:
+    if: ${{ github.event.repository.name != 'ccxt-python-single-exchange' && contains(github.event.head_commit.message, '[BUILD]') }}
+    runs-on: ubuntu-latest
+    steps:
+      # - name: Check repository name
+      #   id: check
+      #   run: |
+      #     if [ "${{ github.event.repository.name }}" == "ccxt-python-single-exchange" ]; then
+      #       echo "Repository is xyz, cancelling workflow"
+      #       exit 0
+      #     fi
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          persist-credentials: false
+      - name: echo something
+        run: echo "something"
+      
+  readme_update:
+    if: ${{ github.event.repository.name != 'ccxt-python-single-exchange' && contains(github.event.head_commit.message, '[BUILD]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Update README with repository links
+        run: chmod +x ./build/update-readme.sh && ./build/update-readme.sh
+      
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git commit -m "Update README with exchange repository links" || echo "No changes to commit"
+          git push
