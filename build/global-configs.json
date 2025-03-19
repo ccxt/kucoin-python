@@ -17,6 +17,7 @@
         "software development kit",
         "websocket",
         "ws",
-        "ccxt"
+        "ccxt",
+        "library"
     ]
 }
