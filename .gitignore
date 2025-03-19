@@ -175,5 +175,3 @@ cython_debug/
 build/ccxt
 /meta.json
 /name
-/examples
-/README.md
