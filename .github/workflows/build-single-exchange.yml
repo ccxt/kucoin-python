@@ -44,9 +44,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install build twine
             
-      - name: Build & publish to pypi
+      - name: Build
         env:
           PYPI_API_SECRET: ${{ secrets.PYPI_API_SECRET }}
         run: |
           cd build || echo "already in build"
           npm run pypi-publish
+
+      - name: Upload to PyPI
+        run: |
+          cd ../temp_pypi
+          python -m twine upload dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_SECRET }}
