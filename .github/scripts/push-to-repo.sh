@@ -16,8 +16,8 @@ rm -rf $TEMP_DIR_GIT/*
 rm -rf $TEMP_DIR_GIT/.github/*
 rsync -av --info=progress2 --info=name0 --exclude='.git/' --exclude='tmp/' --exclude='build/ccxt/' ./ $TEMP_DIR_GIT
 rm -f $TEMP_DIR_GIT/.github/workflows/transfer-all.yml && rm -f $TEMP_DIR_GIT/.github/workflows/transfer-exchange.yml
-echo $EXCHANGE_NAME > exchange_name
 cd $TEMP_DIR_GIT
+echo $EXCHANGE_NAME > exchange_name
 git config user.name github-actions
 git config user.email github-actions@github.com
 git add .
