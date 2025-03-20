@@ -24,7 +24,7 @@ jobs:
           npm install tsx
       - name: Build
         run: |
-          # get repository name and it's first word before hypher and pass that as argument
+          # get repository name and it's first word before hyphen and pass that as argument
           REPO_NAME=$(echo ${{ github.repository }} | cut -d'/' -f2 | cut -d'-' -f1)
           npm run build -- $REPO_NAME
 
