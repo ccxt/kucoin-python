@@ -76,13 +76,16 @@ class pypi {
 
 
     pythonBuild () {
-        execSync(`cd ${this.tempPyDir} && python -m build`);
-        execSync(`cd ${this.tempPyDir} && twine upload dist/*`, {
+        const output1 = execSync(`cd ${this.tempPyDir} && python -m build`);
+        console.log(output1.toString());
+        
+        const output2 = execSync(`cd ${this.tempPyDir} && twine upload dist/*`, {
             env: {
                 TWINE_USERNAME: '__token__',
                 TWINE_PASSWORD: this.pypiApiSecret
             }
         });
+        console.log(output2.toString());
     }
 }
 
