@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsx build.ts"
+    "build": "tsx build.ts",
+    "pypi-publish": "tsx pypi.ts"
   },
   "author": "",
   "license": "ISC",

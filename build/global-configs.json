@@ -1,94 +1,60 @@
 {
     "exchanges" : {
         "bingx": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "bingx",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "bingx"
         },
         "bitget": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "bitget",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "bitget"
         },
         "binance": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "binance",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "binance"
         },
         "bitmart": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "bitmart",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "bitmart"
         },
         "bitmex": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "bitmex-api",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "bitmex-api"
         },
         "bybit": {
             "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://bybit.com/apidocs1",
-            "__PYTHON_PACKAGE_NAME__": "bybit-api",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "bybit-api"
         },
         "coinex": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "coinex-api",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "coinex-api"
         },
         "cryptocom": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "crypto-com-sdk",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "crypto-com-sdk"
         },
         "gate": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "gate-io-api",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "gate-io-api"
         },
         "hashkey": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "hashkey",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "hashkey"
         },
         "htx": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "htx",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "htx"
         },
         "hyperliquid": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
             "__PYTHON_PACKAGE_NAME__": "hyperliquid",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__TEST_SYMBOL__": "BTC/USDC:USDC"
         },
         "kucoin": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "kucoin-api",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "kucoin-api"
         },
         "kucoinfutures": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "kucoin-futures-api",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "kucoin-futures-api"
         },
         "mexc": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "mexc-exchange-api",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "mexc-exchange-api"
         },
         "okx": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "okx-exchange",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "okx-exchange"
         },
         "woo": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "woo-api",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "woo-api"
         },
         "woofipro": {
-            "__LINK_TO_OFFICIAL_EXCHANGE_DOCS__": "https://example.com",
-            "__PYTHON_PACKAGE_NAME__": "woofipro-api",
-            "__TEST_SYMBOL__": "BTC/USDT"
+            "__PYTHON_PACKAGE_NAME__": "woofipro-api"
         }
     },
     "keywords": [
