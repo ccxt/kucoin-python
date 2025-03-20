@@ -56,7 +56,7 @@ class pypi {
             `authors = [\n` +
             `    { name="Example Author", email="author@example.com" },\n` +
             `]\n` +
-            `description = "A small example package"\n` +
+            `description = "${this.exchange} exchange api client"\n` +
             `readme = "README.md"\n` +
             `requires-python = ">=3.8"\n` +
             `classifiers = [\n` +
