@@ -37,7 +37,7 @@ class pypi {
         cp (this.rootDir + `/README.md`, this.tempPyDir + '/README.md');
         // write pyproject.toml
         const verion = this.defineVersion ();
-        fs.writeFileSync(this.tempPyDir + '/pyproject.toml', this.pyprojectTolmContent(pypiPackageNameSanitized));
+        fs.writeFileSync(this.tempPyDir + '/pyproject.toml', this.pyprojectTolmContent(pypiPackageNameSanitized, verion));
         this.pythonPackageBuild ();
     }
 
@@ -81,6 +81,7 @@ class pypi {
         const res = execSync(`pip index versions ` + this.exchangeConfigs[this.exchange].__PYTHON_PACKAGE_NAME__);
         const versions = res.toString().trim();
         const matches = versions.match(/\((\S+)\)/);
+        // @ts-ignore
         const newVersion = semver.inc(matches[1], 'patch');
         return newVersion;
     }
