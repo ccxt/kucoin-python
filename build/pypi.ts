@@ -28,14 +28,16 @@ class pypi {
         mkdir (this.tempPyDir + '/tests/'); // just empty folder
         // copy python folder to temp dir
         const pypiPackageName = this.exchangeConfigs[exchange].__PYTHON_PACKAGE_NAME__;
-        const pypiPackageNameSanitized = this.sanitizeFolderName(pypiPackageName);
+        const pypiPackageNameSanitized = this.sanitizeFolderName (pypiPackageName);
         const pkgDir = this.tempPyDir + '/src/' + pypiPackageNameSanitized;
         mkdir (pkgDir);
-        cp(this.rootDir + `/${this.exchange}`, pkgDir);
+        cp (this.rootDir + `/${this.exchange}`, pkgDir);
         // copy readme
-        cp(this.rootDir + `/README.md`, this.tempPyDir + '/README.md');
+        cp (this.rootDir + `/README.md`, this.tempPyDir + '/README.md');
         // write pyproject.toml
         fs.writeFileSync(this.tempPyDir + '/pyproject.toml', this.pyprojectTolmContent(pypiPackageNameSanitized));
+        this.pythonPackageBuild ();
+        this.twinePublish ();
     }
 
     sanitizeFolderName (name:string) {
@@ -75,17 +77,19 @@ class pypi {
     }
 
 
-    pythonBuild () {
-        const output1 = execSync(`cd ${this.tempPyDir} && python -m build`);
-        console.log(output1.toString());
-        
-        const output2 = execSync(`cd ${this.tempPyDir} && twine upload dist/*`, {
+    pythonPackageBuild () {
+        const res = execSync(`cd ${this.tempPyDir} && python -m build`);
+        console.log(res.toString());
+    }
+
+    twinePublish () {
+        const res = execSync(`cd ${this.tempPyDir} && twine upload dist/*`, {
             env: {
                 TWINE_USERNAME: '__token__',
                 TWINE_PASSWORD: this.pypiApiSecret
             }
         });
-        console.log(output2.toString());
+        console.log(res.toString());
     }
 }
 
