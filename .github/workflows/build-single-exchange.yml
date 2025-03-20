@@ -53,6 +53,7 @@ jobs:
 
       - name: Upload to PyPI
         run: |
+          dir
           cd ./temp_pypi
           python -m twine upload dist/*
         env:
