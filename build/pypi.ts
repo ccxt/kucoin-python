@@ -80,8 +80,8 @@ class pypi {
     defineVersion () {
         const res = execSync(`pip index versions ` + this.exchangeConfigs[this.exchange].__PYTHON_PACKAGE_NAME__);
         const versions = res.toString().trim();
-        const currentVersion = versions.match(/\((\S+)\)/);
-        const newVersion = semver.inc(currentVersion, 'patch');
+        const matches = versions.match(/\((\S+)\)/);
+        const newVersion = semver.inc(matches[1], 'patch');
         return newVersion;
     }
 
