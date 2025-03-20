@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import path from 'path'
 
-import { argvs, exchangeArgv, execSync, cp, capitalize, regexAll } from './utils';
+import { argvs, sanitizePackageName, exchangeArgv, execSync, cp, capitalize, regexAll } from './utils';
 
 import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -156,6 +156,8 @@ class build {
             let value = exchangeConfig[key] || defaultValue; // at first, read from config, if not, use default
             newText = newText.replace(new RegExp(`${key}`, 'g'), value);
         }
+        const sanitized = sanitizePackageName (exchangeConfig['__PYTHON_PACKAGE_NAME__']);
+        newText = newText.replace(new RegExp(`__PYTHON_PACKAGE_KEY__`, 'g'), sanitized);
         return newText;
     }
 

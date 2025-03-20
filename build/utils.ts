@@ -46,6 +46,10 @@ function regexAll (text: string, array: any[]) {
     return text;
 }
 
+function sanitizePackageName (name:string) {
+    return name.replace(/-/g, '_');
+}
+
 
 
 function jsonFromFile (path: string) {
@@ -71,6 +75,7 @@ export {
     cp,
     mkdir,
     capitalize,
+    sanitizePackageName,
     regexAll,
     exec,
     execSync,

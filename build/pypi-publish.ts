@@ -2,7 +2,7 @@ import * as fs from 'fs'
 import path from 'path'
 import * as semver from 'semver';
 
-import { argvs, mkdir, jsonFromFile, exchangeArgv, execSync, cp, capitalize, regexAll } from './utils';
+import { argvs, sanitizePackageName, mkdir, jsonFromFile, exchangeArgv, execSync, cp, capitalize, regexAll } from './utils';
 
 import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,7 +29,7 @@ class pypi {
         mkdir (this.tempPyDir + '/tests/'); // just empty folder
         // copy python folder to temp dir
         const pypiPackageName = this.exchangeConfigs[exchange].__PYTHON_PACKAGE_NAME__;
-        const pypiPackageNameSanitized = this.sanitizeFolderName (pypiPackageName);
+        const pypiPackageNameSanitized = sanitizePackageName (pypiPackageName);
         const pkgDir = this.tempPyDir + '/src/' + pypiPackageNameSanitized;
         mkdir (pkgDir);
         cp (this.rootDir + `/${this.exchange}`, pkgDir);
@@ -39,10 +39,6 @@ class pypi {
         const verion = this.defineVersion ();
         fs.writeFileSync(this.tempPyDir + '/pyproject.toml', this.pyprojectTolmContent(pypiPackageNameSanitized, verion));
         this.pythonPackageBuild ();
-    }
-
-    sanitizeFolderName (name:string) {
-        return name.replace(/-/g, '_');
     }
 
     pyprojectTolmContent(pypiPackageNameSanitized:string, newVersion: string) {
