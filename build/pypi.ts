@@ -13,7 +13,8 @@ class pypi {
     exchangeConfigs:any;
     pypiApiSecret:any;
     rootDir:string = __dirname + `/../`;
-    
+    tempPyDir:string = this.rootDir + `/temp_pypi/`;
+
     constructor(exchange: string, pypiApiSecret: string) {
         this.exchange = exchange;
         this.exchangeConfigs = jsonFromFile(__dirname + `/global-configs.json`)['exchanges'];
@@ -23,19 +24,18 @@ class pypi {
 
     init(exchange) {
         // create skeleton dirs
-        const tmpDir = this.rootDir + `/temp_pypi/`;
-        mkdir (tmpDir);
-        mkdir (tmpDir + '/tests/'); // just empty folder
+        mkdir (this.tempPyDir);
+        mkdir (this.tempPyDir + '/tests/'); // just empty folder
         // copy python folder to temp dir
         const pypiPackageName = this.exchangeConfigs[exchange].__PYTHON_PACKAGE_NAME__;
         const pypiPackageNameSanitized = this.sanitizeFolderName(pypiPackageName);
-        const pkgDir = tmpDir + '/src/' + pypiPackageNameSanitized;
+        const pkgDir = this.tempPyDir + '/src/' + pypiPackageNameSanitized;
         mkdir (pkgDir);
         cp(this.rootDir + `/${this.exchange}`, pkgDir);
         // copy readme
-        cp(this.rootDir + `/README.md`, tmpDir + '/README.md');
+        cp(this.rootDir + `/README.md`, this.tempPyDir + '/README.md');
         // write pyproject.toml
-        fs.writeFileSync(tmpDir + '/pyproject.toml', this.pyprojectTolmContent(pypiPackageNameSanitized));
+        fs.writeFileSync(this.tempPyDir + '/pyproject.toml', this.pyprojectTolmContent(pypiPackageNameSanitized));
     }
 
     sanitizeFolderName (name:string) {
@@ -72,6 +72,17 @@ class pypi {
             ''
         ;
         return content;
+    }
+
+
+    pythonBuild () {
+        execSync(`cd ${this.tempPyDir} && python -m build`);
+        execSync(`cd ${this.tempPyDir} && twine upload dist/*`, {
+            env: {
+                TWINE_USERNAME: '__token__',
+                TWINE_PASSWORD: this.pypiApiSecret
+            }
+        });
     }
 }
 
