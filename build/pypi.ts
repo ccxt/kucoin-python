@@ -37,7 +37,7 @@ class pypi {
         // write pyproject.toml
         fs.writeFileSync(this.tempPyDir + '/pyproject.toml', this.pyprojectTolmContent(pypiPackageNameSanitized));
         this.pythonPackageBuild ();
-        this.twinePublish ();
+        // this.twinePublish ();
     }
 
     sanitizeFolderName (name:string) {
