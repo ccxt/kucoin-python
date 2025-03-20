@@ -1,5 +1,6 @@
 import * as fs from 'fs'
 import path from 'path'
+import * as semver from 'semver';
 
 import { argvs, mkdir, jsonFromFile, exchangeArgv, execSync, cp, capitalize, regexAll } from './utils';
 
@@ -35,16 +36,16 @@ class pypi {
         // copy readme
         cp (this.rootDir + `/README.md`, this.tempPyDir + '/README.md');
         // write pyproject.toml
+        const verion = this.defineVersion ();
         fs.writeFileSync(this.tempPyDir + '/pyproject.toml', this.pyprojectTolmContent(pypiPackageNameSanitized));
         this.pythonPackageBuild ();
-        // this.twinePublish ();
     }
 
     sanitizeFolderName (name:string) {
         return name.replace(/-/g, '_');
     }
 
-    pyprojectTolmContent(pypiPackageNameSanitized:string) {
+    pyprojectTolmContent(pypiPackageNameSanitized:string, newVersion: string) {
         const content = '' +
             `[build-system]\n` +
             `requires = ["hatchling"]\n` +
@@ -55,7 +56,7 @@ class pypi {
             `\n` +
             `[project]\n` +
             `name = "${pypiPackageNameSanitized}"\n` +
-            `version = "0.0.1"\n` +
+            `version = "` + newVersion + `"\n` +
             `authors = [\n` +
             `    { name="Example Author", email="author@example.com" },\n` +
             `]\n` +
@@ -76,21 +77,19 @@ class pypi {
         return content;
     }
 
+    defineVersion () {
+        const res = execSync(`pip index versions ` + this.exchangeConfigs[this.exchange].__PYTHON_PACKAGE_NAME__);
+        const versions = res.toString().trim();
+        const currentVersion = versions.match(/\((\S+)\)/);
+        const newVersion = semver.inc(currentVersion, 'patch');
+        return newVersion;
+    }
 
     pythonPackageBuild () {
         const res = execSync(`cd ${this.tempPyDir} && python -m build`);
         console.log(res.toString());
     }
 
-    twinePublish () {
-        const res = execSync(`cd ${this.tempPyDir} && twine upload dist/*`, {
-            env: {
-                TWINE_USERNAME: '__token__',
-                TWINE_PASSWORD: this.pypiApiSecret
-            }
-        });
-        console.log(res.toString());
-    }
 }
 
 // check if environment variabele exist

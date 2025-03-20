@@ -48,12 +48,11 @@ jobs:
         env:
           PYPI_API_SECRET: ${{ secrets.PYPI_API_SECRET }}
         run: |
-          cd build || echo "already in build"
+          cd build || echo ""
           npm run pypi-publish
 
       - name: Upload to PyPI
         run: |
-          dir
           cd ./temp_pypi
           python -m twine upload dist/*
         env:

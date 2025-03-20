@@ -12,7 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "fs": "^0.0.1-security",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "semver": "^7.7.1"
   },
   "devDependencies": {
     "tsx": "^4.19.3"
